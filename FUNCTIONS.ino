@@ -17,18 +17,21 @@ void startupCheck()                                                             
 
 void softStart()                                                                                                               //softStart will check for shortCircuit
 {
-  for(int dutyCycleMultiplier = 0; dutyCycleMultiplier < MULTIPLIER_SOFTSTART_VALUE; dutyCycleMultiplier++)
+  int dutyCycleMultiplier = 0;
+  while(dutyCycleMultiplier < MULTIPLIER_SOFTSTART_VALUE && outputVoltage < (0.5 * SET_OUTPUT_VOLTAGE) )
   {
-    PIDControllerOutput = dutyCycleMultiplier;                                                                                 //overides the PID controller
+    PIDControllerOutput = dutyCycleMultiplier++;                                                                            //overides the PID controller
+    outputVoltage = (float)analogRead(OUTPUT_VOLTAGE_FB_PIN) * OUTPUT_RESISTOR_DIVIDER * voltageScalingFactor;
     delay(1);
   }
   delay(100);
-  outputVoltage = (float)analogRead(OUTPUT_VOLTAGE_FB_PIN) * OUTPUT_RESISTOR_DIVIDER * voltageScalingFactor;
   
-  while(outputVoltage < OUTPUT_VOLTAGE_SOFTSTART_CRITERIA)                                                                    //if the output voltage is too low, most likely  over loading
+  
+ while(outputVoltage < (SET_OUTPUT_VOLTAGE * 0.4))                                                                    //if the output voltage is too low, most likely  over loading, while loop ensures that we don't proceed
   {
-    runningError = true;
-      multiplier = 0;
+      runningError = true;
+      overload = true;
+      PIDControllerOutput = 0;
     //print overloading on lcd.
   }
   runningError = false;
@@ -40,20 +43,13 @@ void shutDown()
   //turn off all mosfet drivers and high voltage generator
 }
 
-uint16_t PID(int error)
+uint16_t PID(float error)
 {
   static int previousError = 0, controller = 0;
-  static double deltaTime = 0.001, integral = 0;
-  static unsigned long previousTime = 0, currentTime = 0;
- 
-  currentTime = millis();
-  deltaTime = (currentTime - previousTime) / 1000.0;                                                                          //divide by 1000 to get it into seconds
-    if(deltaTime > 1)                                                                                                         //avoids integrating over long period
-      deltaTime = 0.001;
+  static float integral = 0;
     if(controller >= SATURATION_MIN && controller <= SATURATION_MAX)                                                            //prevent windup, don't integrate again if controller is almost saturated
-      integral += error * deltaTime;
-  controller = constrain(Kp*error + Ki*integral + Kd*(error - previousError) / deltaTime, 0, 500);
-  previousTime = currentTime;   
+      integral += error;
+  controller = constrain(Kp*error + Ki*integral + Kd*(error - previousError), 0, 500);                                          //Ki = actual Ki * deltaTime and Kd = actual Kd / deltaTime
   previousError = error;
   return controller;                                                        
 }
