@@ -38,19 +38,21 @@ ISR(TIMER2_COMPA_vect)                                          //triggers every
   if(sineArrayIndex < 59 && sineHalf == 1)                      //checks if we're still in the positive half cycle and if we are, step into the next value in the array
   {
       OCR1A = sineValues[sineArrayIndex] * multiplier;          //All this is done so that the positive cycle of the sine wave looks sine-wavy
-      OCR1B = 0;
       sineArrayIndex++;                                         
   }
   else if(sineArrayIndex < 59 && sineHalf == -1)                //checks if we're in the negative cycle and repeat the process
   {
       OCR1B = sineValues[sineArrayIndex]* multiplier;
-      OCR1A = 0;
       sineArrayIndex++;
   }
   else if(sineArrayIndex == 59 || sineArrayIndex > 59)          //checks for zero crossings and changes the cycle polarity
   {
     sineHalf = -sineHalf;
     sineArrayIndex = 0;
+    
+    if(sineHalf == 1) OCR1B = 0;                            //makes sure the other mosfet is turned off
+    else OCR1A = 0;
+    
     multiplier = PIDControllerOutput;                           //only change the mulltiplier at zero crossings to avoid distorted waveforms
   }
 }

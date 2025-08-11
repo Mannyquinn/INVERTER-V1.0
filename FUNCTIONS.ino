@@ -24,7 +24,7 @@ void softStart()                                                                
     outputVoltage = (float)analogRead(OUTPUT_VOLTAGE_FB_PIN) * OUTPUT_RESISTOR_DIVIDER * voltageScalingFactor;
     delay(1);
   }
-  delay(100);
+  delay(100);                                                                                                               //let the voltage stabilize
   
   
  while(outputVoltage < (SET_OUTPUT_VOLTAGE * 0.4))                                                                    //if the output voltage is too low, most likely  over loading, while loop ensures that we don't proceed
@@ -40,7 +40,7 @@ void softStart()                                                                
 }
 void shutDown()
 {
-  //turn off all mosfet drivers and high voltage generator
+  //turn off all mosfet drivers and high voltage generator5
 }
 
 uint16_t PID(float error)
