@@ -2,7 +2,7 @@
  * There is room for optimization, feel free to make copies and edit.
  * use at your own risk haha :)
  * 
- * written by 
+ * written by Eltolad Elisha
  */
 
 #define SPWM_OUTPUT_PIN_1 PB1 
@@ -95,3 +95,4 @@ void loop()
   voltageError = map((SET_OUTPUT_VOLTAGE - outputVoltage), 0, SET_OUTPUT_VOLTAGE, 0, 100);                                       
   PID(voltageError);  
 }
+
