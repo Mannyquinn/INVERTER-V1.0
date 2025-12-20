@@ -20,7 +20,7 @@
 /* output parameter settings */
 #define SET_OUTPUT_VOLTAGE  325                                                                  //325V peak not RMS since the voltage feedback is a divider and peak detection circuit [325 = 230*sqrt(2)]
 #define INPUT_RESISTOR_DIVIDER 6                                                                 //the resistor divider used in the DC input, i used a 10k and 2k giving a divsion on 6
-#define OUTPUT_RESISTOR_DIVIDER 201                                                              //resistor divider at the AC output, i used a 200k and 1k giving a division of approximately 201
+#define OUTPUT_RESISTOR_DIVIDER 200                                                              //resistor divider at the AC output, i used a 200k, 1k and 0.1uF cap giving a division of approximately 200 at 50Hz
 #define OVERLOAD_VOLTAGE 288                                                                     //if the microcontroller senses the voltage to be 288v peak (200v RMS) at the maximum duty cycle, there is overload
 
 
@@ -95,4 +95,5 @@ void loop()
   voltageError = map((SET_OUTPUT_VOLTAGE - outputVoltage), 0, SET_OUTPUT_VOLTAGE, 0, 100);                                       
   PID(voltageError);  
 }
+
 
