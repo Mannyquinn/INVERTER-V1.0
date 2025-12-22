@@ -94,9 +94,10 @@ void loop()
   systemErrorCheck();
   /*(SET_OUTPUT_VOLTAGE - outputVoltage) is the error, but since the output voltage can be set to different value, we can map the error between 0 and  its maximum value....this will help remove the need to retune the PID constants */
   voltageDifference = SET_OUTPUT_VOLTAGE - outputVoltage;
-  voltageError = map((voltageDifference), 0, SET_OUTPUT_VOLTAGE, 0, 100);                                       
+  voltageError = map((voltageDifference), 0, SET_OUTPUT_VOLTAGE, 0, 100);               //error is positive if voltageDifference is positive and negative if voltageDifference is                               
   PID(voltageError);  
 }
+
 
 
 
