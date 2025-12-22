@@ -148,7 +148,7 @@ void PID(float& error)
 {
 
     static int previousError = 0;
-    static uint8_t controller = 0;
+    static int controller = 0;
     static float integral = 0;
     
    /*prevent windup, don't integrate again if controller is almost saturated*/
@@ -169,3 +169,4 @@ void PID(float& error)
     previousError = error;
                                                          
 }
+
