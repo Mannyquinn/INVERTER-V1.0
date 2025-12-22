@@ -30,7 +30,8 @@
 #define K_derivative 0
 #define deltaTime 0.04                                                                           //250hz sample time
 
-float voltageError = 0;
+int voltageError = 0;
+int voltageDifference = 0;
 const float Kp = K_proportional;
 const float Ki = K_integral * deltaTime;
 const float Kd = K_derivative / deltaTime;
@@ -92,9 +93,11 @@ void loop()
   readSystemParameters();
   systemErrorCheck();
   /*(SET_OUTPUT_VOLTAGE - outputVoltage) is the error, but since the output voltage can be set to different value, we can map the error between 0 and  its maximum value....this will help remove the need to retune the PID constants */
-  voltageError = map((SET_OUTPUT_VOLTAGE - outputVoltage), 0, SET_OUTPUT_VOLTAGE, 0, 100);                                       
+  voltageDifference = SET_OUTPUT_VOLTAGE - outputVoltage;
+  voltageError = map((voltageDifference), 0, SET_OUTPUT_VOLTAGE, 0, 100);                                       
   PID(voltageError);  
 }
+
 
 
 
