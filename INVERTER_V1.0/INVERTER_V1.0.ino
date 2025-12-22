@@ -49,7 +49,7 @@ const float voltageScalingFactor =  float(VOLTAGE_REFERENCE / 1023.0);
 void softStart(),
      setupTimers(),
      startupCheck(),
-     PID(float&),
+     PID(int&),
      systemErrorCheck(),
      readSystemParameters();
 
@@ -97,6 +97,7 @@ void loop()
   voltageError = map((voltageDifference), 0, SET_OUTPUT_VOLTAGE, 0, 100);                                       
   PID(voltageError);  
 }
+
 
 
 
