@@ -144,9 +144,8 @@ void shutDown()
   PORTB &= ~(1 << SPWM_OUTPUT_PIN_2);
 }
 
-void PID(float& error)
+void PID(int& error)
 {
-
     static int previousError = 0;
     static int controller = 0;
     static float integral = 0;
@@ -169,4 +168,5 @@ void PID(float& error)
     previousError = error;
                                                          
 }
+
 
