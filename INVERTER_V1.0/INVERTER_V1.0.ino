@@ -37,7 +37,7 @@ const float Kd = K_derivative / deltaTime;
 
 
 /*other variables*/
-volatile float PIDControllerOutput;
+volatile int PIDControllerOutput;
 volatile int multiplier = 0;
 volatile uint8_t sineArrayIndex = 0;
 volatile int sineHalf = 1;
@@ -95,5 +95,6 @@ void loop()
   voltageError = map((SET_OUTPUT_VOLTAGE - outputVoltage), 0, SET_OUTPUT_VOLTAGE, 0, 100);                                       
   PID(voltageError);  
 }
+
 
 
