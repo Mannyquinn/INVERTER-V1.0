@@ -28,7 +28,7 @@
 #define K_proportional 4
 #define K_integral 1
 #define K_derivative 0
-#define deltaTime 0.04                                                                           //250hz sample time
+#define deltaTime 0.004                                                                           //250hz sample time
 
 int voltageError = 0;
 int voltageDifference = 0;
@@ -97,6 +97,7 @@ void loop()
   voltageError = map((voltageDifference), 0, SET_OUTPUT_VOLTAGE, 0, 100);               //error is positive if voltageDifference is positive and negative if voltageDifference is                               
   PID(voltageError);  
 }
+
 
 
 
