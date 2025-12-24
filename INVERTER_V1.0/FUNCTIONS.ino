@@ -159,7 +159,7 @@ void PID(int& error)
 
    /*Ki = actual Ki * deltaTime and Kd = actual Kd / deltaTime*/
     P_controller += error * Kp;                               //velocity based proportional controller
-    P_controller = constrain(P_controller, -500, 500);        //p_controller must not be allowed to go above 500
+    P_controller = constrain(P_controller, 0, 500);        //p_controller must not be allowed to go above 500
     I_controller = Ki * integral;                             //integral
     D_controller = Kd*(error - previousError);                //derivative
     controller = constrain(P_controller + I_controller + D_controller , 0, 500);        
@@ -175,3 +175,4 @@ void PID(int& error)
     previousError = error;
                                                          
 }
+
