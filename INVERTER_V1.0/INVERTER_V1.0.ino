@@ -9,8 +9,8 @@
 #define SPWM_OUTPUT_PIN_2 PB2
 #define OUTPUT_VOLTAGE_FB_PIN A0                                                                //input voltage feedback pin
 #define INPUT_VOLTAGE_FB_PIN  A1                                                                //onput voltage feedback pin
-#define SATURATION_MAX 490                                                                      //constants used to avoid integration windup
-#define SATURATION_MIN 10
+#define SATURATION_MAX 500                                                                      //constants used to avoid integration windup
+#define SATURATION_MIN 0
 #define SHORT_CIRCUIT_PIN PB4                                                                   //this pin is an input and is trigered by the hardware short circuit / overload circuit
 #define SHUT_DOWN_PIN PB5                                                                       //When the microsontroller sees a fault, it will disable the hardware by pulling this pin
 #define MULTIPLIER_MAX_VALUE 500                                                                //must be less than 500
@@ -25,7 +25,7 @@
 
 
 /* PID parameters */
-#define K_proportional 4
+#define K_proportional 2.5                                                                       //keep value between 0.5 and 5, 0.5 being very calm and 5 being overly aggressive
 #define K_integral 1
 #define K_derivative 0
 #define deltaTime 0.004                                                                           //250hz sample time
@@ -97,10 +97,3 @@ void loop()
   voltageError = map((voltageDifference), 0, SET_OUTPUT_VOLTAGE, 0, 100);               //error is positive if voltageDifference is positive and negative if voltageDifference is                               
   PID(voltageError);  
 }
-
-
-
-
-
-
-
