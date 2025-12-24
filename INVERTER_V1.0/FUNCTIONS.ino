@@ -149,13 +149,20 @@ void PID(int& error)
     static int previousError = 0;
     static int controller = 0;
     static float integral = 0;
+    static float P_controller = 0;
+    static float I_controller = 0;
+    static float D_controller = 0;
     
    /*prevent windup, don't integrate again if controller is almost saturated*/
     if(controller >= SATURATION_MIN && controller <= SATURATION_MAX)                                                            
-      integral += error;
+      integral += error; 
 
    /*Ki = actual Ki * deltaTime and Kd = actual Kd / deltaTime*/
-    controller = constrain(Kp*error + Ki*integral + Kd*(error - previousError), 0, 500);        
+    P_controller += error * Kp;                               //velocity based proportional controller
+    P_controller = constrain(P_controller, -500, 500);        //p_controller must not be allowed to go above 500
+    I_controller = Ki * integral;                             //integral
+    D_controller = Kd*(error - previousError);                //derivative
+    controller = constrain(P_controller + I_controller + D_controller , 0, 500);        
 
   /* write the controller output to the SPWM*/
   /* you may wonder why i am writing the controller output to the PIDControllerOutput variable instead of the multiplier directly
@@ -168,5 +175,3 @@ void PID(int& error)
     previousError = error;
                                                          
 }
-
-
