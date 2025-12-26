@@ -84,8 +84,11 @@ void setup()
   
   startupCheck();                                                                        //checks that the input voltage is right
   if(startupError == false)
+  {
+    
     setupTimers();
-  softStart();                                                                           //slow start and checks for shortcircuit
+    softStart();                                                                           //slow start and checks for shortcircuit
+  }
   
 }
 
@@ -98,4 +101,5 @@ void loop()
   voltageError = map((voltageDifference), 0, SET_OUTPUT_VOLTAGE, 0, 100);               //error is positive if voltageDifference is positive and negative if voltageDifference is                               
   PID(voltageError);  
 }
+
 
