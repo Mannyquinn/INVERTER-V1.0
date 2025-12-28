@@ -7,8 +7,8 @@
 
 #define SPWM_OUTPUT_PIN_1 PB1 
 #define SPWM_OUTPUT_PIN_2 PB2
-#define OUTPUT_VOLTAGE_FB_PIN A0                                                                //input voltage feedback pin
-#define INPUT_VOLTAGE_FB_PIN  A1                                                                //onput voltage feedback pin
+#define OUTPUT_VOLTAGE_FB_PIN A0                                                                //output voltage feedback pin
+#define INPUT_VOLTAGE_FB_PIN  A1                                                                //input voltage feedback pin
 #define SATURATION_MAX 500                                                                      //constants used to avoid integration windup
 #define SATURATION_MIN 0
 #define SHORT_CIRCUIT_PIN PB4                                                                   //this pin is an input and is trigered by the hardware short circuit / overload circuit
@@ -21,7 +21,7 @@
 #define SET_OUTPUT_VOLTAGE  325                                                                  //325V peak not RMS since the voltage feedback is a divider and peak detection circuit [325 = 230*sqrt(2)]
 #define INPUT_RESISTOR_DIVIDER 6                                                                 //the resistor divider used in the DC input, i used a 10k and 2k giving a divsion on 6
 #define OUTPUT_RESISTOR_DIVIDER 200                                                              //resistor divider at the AC output, i used a 200k, 1k and 0.1uF cap giving a division of approximately 200 at 50Hz
-#define OVERLOAD_VOLTAGE 288                                                                     //if the microcontroller senses the voltage to be 288v peak (200v RMS) at the maximum duty cycle, there is overload
+#define OVERLOAD_VOLTAGE 283                                                                     //if the microcontroller senses the voltage to be 283v peak (200v RMS) at the maximum duty cycle, there is overload
 
 
 /* PID parameters */
@@ -100,6 +100,7 @@ void loop()
   voltageError = map((voltageDifference), 0, SET_OUTPUT_VOLTAGE, 0, 100);               //error is positive if voltageDifference is positive and negative if voltageDifference is                               
   PID(voltageError);  
 }
+
 
 
 
